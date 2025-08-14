@@ -5,6 +5,8 @@ using TaskScheduler.API.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerDocumentation();
+builder.Services.RegisterDependencies(builder.Configuration);
+
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();

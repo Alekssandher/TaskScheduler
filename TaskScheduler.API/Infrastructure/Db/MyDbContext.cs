@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TaskScheduler.API.Domain.Models;
 
 namespace TaskScheduler.API.Infrastructure.Db
 {
@@ -18,9 +15,11 @@ namespace TaskScheduler.API.Infrastructure.Db
         // public DbSet<Admin> Admins { get; set; } = default!;
         // public DbSet<Vehicle> Vehicles { get; set; } = default!;
 
+        public DbSet<User> Users { get; set; } = default!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
