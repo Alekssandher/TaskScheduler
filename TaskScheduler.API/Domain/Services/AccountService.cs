@@ -15,10 +15,12 @@ namespace TaskScheduler.API.Domain.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordRepository _passwordRepository;
-        public AccountService(IUserRepository userRepository, IPasswordRepository passwordRepository)
+        private readonly IJwtRepository _jwtRepository;
+        public AccountService(IUserRepository userRepository, IPasswordRepository passwordRepository, IJwtRepository jwtRepository)
         {
             _userRepository = userRepository;
             _passwordRepository = passwordRepository;
+            _jwtRepository = jwtRepository;
         }
 
         public async Task<string> Login(LoginDto loginDto)
@@ -28,7 +30,8 @@ namespace TaskScheduler.API.Domain.Services
             
             if (_passwordRepository.VerifyPassword(loginDto.Password, res.PasswordHash))
             {
-                return "token";
+                
+                return _jwtRepository.GetJwtToken(res.Email);
             }
 
             throw new Exception("NotFound");

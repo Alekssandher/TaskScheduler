@@ -23,6 +23,7 @@ namespace TaskScheduler.API.Extensions
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordRepository, PasswordRepository>();
+            services.AddScoped<IJwtRepository, JwtRepository>();
         }
     }   
 }

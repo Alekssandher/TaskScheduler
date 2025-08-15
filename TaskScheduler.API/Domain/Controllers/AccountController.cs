@@ -34,7 +34,7 @@ namespace TaskScheduler.API.Domain.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             var res = await _accountInterface.Login(loginDto);
-
+            
             return Ok(new OkResponse<string>("", "", res));
         }
     }
