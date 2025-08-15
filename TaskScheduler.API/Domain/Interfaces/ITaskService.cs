@@ -8,5 +8,6 @@ namespace TaskScheduler.API.Domain.Interfaces
         Task<List<MyTaskResponse>> GetAllTasks(TaskFilter taskFilter);
         Task CreateTask(MyTaskRequestDto dto);
         Task UpdateTask(MyTaskUpdateDto dto);
+        Task DeleteTask(int taskId);
     }
 }

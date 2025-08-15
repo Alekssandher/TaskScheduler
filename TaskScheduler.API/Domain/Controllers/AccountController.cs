@@ -16,7 +16,7 @@ namespace TaskScheduler.API.Domain.Controllers
             _accountInterface = accountInterface;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         [Consumes("application/json")]
         [EndpointName("Register")]
         [EndpointSummary("Register Account.")]

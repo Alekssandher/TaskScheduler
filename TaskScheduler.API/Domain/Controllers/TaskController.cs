@@ -26,7 +26,6 @@ namespace TaskScheduler.API.Domain.Controllers
         }
 
         [HttpGet]
-        [Consumes("application/json")]
         [EndpointName("Get Tasks")]
         [EndpointSummary("GetTasks")]
         [ProducesResponseType(typeof(OkResponse<IReadOnlyList<MyTaskResponse>>), StatusCodes.Status200OK, "application/json")]
@@ -57,6 +56,17 @@ namespace TaskScheduler.API.Domain.Controllers
         public async Task<IActionResult> UpdateTask([FromBody] MyTaskUpdateDto dto)
         {
             await _taskService.UpdateTask(dto);
+
+            return StatusCode(204, noContentResponse);
+        }
+
+        [HttpDelete("{taskId}")]
+        [EndpointName("Delete Task")]
+        [EndpointSummary("DeleteTask")]
+        [ProducesResponseType(typeof(NoContentResponse), StatusCodes.Status204NoContent, "application/json")]
+        public async Task<IActionResult> DeleteTask([FromRoute] int taskId)
+        {
+            await _taskService.DeleteTask(taskId);
 
             return StatusCode(204, noContentResponse);
         }

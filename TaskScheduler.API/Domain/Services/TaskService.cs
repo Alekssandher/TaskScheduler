@@ -71,7 +71,7 @@ namespace TaskScheduler.API.Domain.Services
 
             var user = await _userRepository.GetByEmail(email) ?? throw new Exception();
 
-            MyTask task = await _taskRepository.GetTaskById(dto.TaskId) 
+            MyTask task = await _taskRepository.GetTaskById(dto.TaskId)
                 ?? throw new Exception("Task not found");
 
             if (task.UserId != user.Id)
@@ -84,8 +84,20 @@ namespace TaskScheduler.API.Domain.Services
 
             task.UpdatedAt = DateTime.UtcNow;
 
-            await _taskRepository.UpdateEntireTask(task);
+            if (!await _taskRepository.UpdateEntireTask(task))
+                throw new Exception();
+        }
 
+        public async Task DeleteTask(int taskId)
+        {
+            var token = GetToken() ?? throw new Exception("Token Missing?");
+
+            var email = _jwtRepository.ExtractEmail(token);
+
+            var user = await _userRepository.GetByEmail(email) ?? throw new Exception();
+
+            if (!await _taskRepository.DeleteTask(taskId, user.Id))
+                throw new Exception();
         }
     }
 }

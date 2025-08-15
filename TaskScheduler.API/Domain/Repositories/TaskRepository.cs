@@ -15,20 +15,32 @@ namespace TaskScheduler.API.Domain.Repositories
             _context = context;
         }
 
-        public async Task<List<MyTask>> GetAllTasks(int id)
+        public async Task<List<MyTask>> GetAllTasks(int userId)
         {
             return await _context.Tasks
-            .Where(u => u.UserId == id)
+            .Where(u => u.UserId == userId)
             .ToListAsync();
                 
         }
 
+        public async Task<bool> DeleteTask(int taskId, int userId)
+        {
+            var task = await _context.Tasks
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
+
+            if (task == null) return false;
+
+            _context.Tasks.Remove(task);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
         public async Task<List<MyTask>> GetTasksByFilters(int id, TaskFilter taskFilter)
         {
             var query = _context.Tasks.AsQueryable();
 
             query = query.Where(u => u.UserId == id);
-            
+
             if (taskFilter.Status.HasValue)
                 query = query.Where(t => t.Status == taskFilter.Status.Value);
 
@@ -57,7 +69,7 @@ namespace TaskScheduler.API.Domain.Repositories
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task UpdateEntireTask(MyTask myTask)
+        public async Task<bool> UpdateEntireTask(MyTask myTask)
         {
             var affected = await _context.Tasks
             .Where(t => t.Id == myTask.Id)
@@ -70,12 +82,14 @@ namespace TaskScheduler.API.Domain.Repositories
             );
 
             if (affected == 0)
-                throw new Exception("Task not found");
+                return false;
 
             await _context.SaveChangesAsync();
+
+            return true;
         }
 
-            public async Task AddTask(MyTask myTask)
+        public async Task AddTask(MyTask myTask)
         {
             await _context.Tasks.AddAsync(myTask);
             await _context.SaveChangesAsync();
