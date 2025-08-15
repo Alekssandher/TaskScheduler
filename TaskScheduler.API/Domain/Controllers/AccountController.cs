@@ -23,6 +23,7 @@ namespace TaskScheduler.API.Domain.Controllers
         [EndpointName("Register")]
         [EndpointSummary("Register Account.")]
         [ProducesResponseType(typeof(Created), StatusCodes.Status201Created, "application/json")]
+        [EndpointDescription("Register your account.")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             await _accountInterface.Register(registerDto);
@@ -35,6 +36,7 @@ namespace TaskScheduler.API.Domain.Controllers
         [EndpointName("Login")]
         [EndpointSummary("Login and Get Token.")]
         [ProducesResponseType(typeof(OkResponse<IReadOnlyList<MyTaskResponse>>), StatusCodes.Status200OK, "application/json")]
+        [EndpointDescription("Login and get the user token.")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             var res = await _accountInterface.Login(loginDto);

@@ -27,6 +27,7 @@ namespace TaskScheduler.API.Domain.Controllers
         [EndpointName("Get Tasks")]
         [EndpointSummary("GetTasks")]
         [ProducesResponseType(typeof(OkResponse<IReadOnlyList<MyTaskResponse>>), StatusCodes.Status200OK, "application/json")]
+        [EndpointDescription("Retrieves a list of user tasks based on the provided query parameters.")]
         public async Task<IActionResult> GetAllTasks([FromQuery] TaskFilter taskFilter)
         {
             var res = await _taskService.GetAllTasks(taskFilter);
@@ -38,6 +39,7 @@ namespace TaskScheduler.API.Domain.Controllers
         [Consumes("application/json")]
         [EndpointName("Create Task")]
         [EndpointSummary("CreateTask")]
+        [EndpointDescription("Create a task based on the provided scheme.")]
         [ProducesResponseType(typeof(Created), StatusCodes.Status201Created, "application/json")]
         public async Task<IActionResult> CreateTask([FromBody] MyTaskRequestDto dto)
         {
@@ -51,6 +53,7 @@ namespace TaskScheduler.API.Domain.Controllers
         [EndpointName("Update Task")]
         [EndpointSummary("UpdateTask")]
         [ProducesResponseType(typeof(NoContent), StatusCodes.Status204NoContent, "application/json")]
+        [EndpointDescription("Update a task from the provided scheme.")]
         public async Task<IActionResult> UpdateTask([FromBody] MyTaskUpdateDto dto)
         {
             await _taskService.UpdateTask(dto);
@@ -62,6 +65,7 @@ namespace TaskScheduler.API.Domain.Controllers
         [EndpointName("Delete Task")]
         [EndpointSummary("DeleteTask")]
         [ProducesResponseType(typeof(NoContent), StatusCodes.Status204NoContent, "application/json")]
+        [EndpointDescription("Delete a task by its id.")]
         public async Task<IActionResult> DeleteTask([FromRoute] int taskId)
         {
             await _taskService.DeleteTask(taskId);

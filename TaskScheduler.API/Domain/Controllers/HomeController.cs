@@ -4,6 +4,7 @@ namespace TaskScheduler.API.Domain.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : ControllerBase
     {
         [HttpGet("/")]

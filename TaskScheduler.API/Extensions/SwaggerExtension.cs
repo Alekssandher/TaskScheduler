@@ -1,8 +1,8 @@
 namespace TaskScheduler.API.Extensions
 {
-    public static class SwaggerExtension
+    public static class DocumentationExtension
     {
-        public static void AddSwaggerDocumentation(this IServiceCollection services)
+        public static void AddDocumentation(this IServiceCollection services)
         {
             services.AddOpenApi(options =>
             {

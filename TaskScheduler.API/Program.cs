@@ -4,7 +4,7 @@ using TaskScheduler.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSwaggerDocumentation();
+builder.Services.AddDocumentation();
 builder.Services.RegisterDependencies(builder.Configuration);
 builder.Services.RegisterAuthorization(builder.Configuration);
 
