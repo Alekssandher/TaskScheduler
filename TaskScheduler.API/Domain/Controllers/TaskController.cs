@@ -22,6 +22,7 @@ namespace TaskScheduler.API.Domain.Controllers
         [HttpGet]
         [Consumes("application/json")]
         [EndpointName("Get Tasks")]
+        [EndpointSummary("GetTasks")]
         public async Task<IActionResult> GetAllTasks()
         {
             var res = await _taskService.GetAllTasks();
@@ -32,11 +33,23 @@ namespace TaskScheduler.API.Domain.Controllers
         [HttpPost]
         [Consumes("application/json")]
         [EndpointName("Create Task")]
+        [EndpointSummary("CreateTask")]
         public async Task<IActionResult> CreateTask([FromBody] MyTaskRequestDto dto)
         {
             await _taskService.CreateTask(dto);
 
             return Created();
+        }
+
+        [HttpPut]
+        [Consumes("application/json")]
+        [EndpointName("Update Task")]
+        [EndpointSummary("UpdateTask")]
+        public async Task<IActionResult> UpdateTask([FromBody] MyTaskUpdateDto dto)
+        {
+            await _taskService.UpdateTask(dto);
+
+            return NoContent();
         }
     }
 }

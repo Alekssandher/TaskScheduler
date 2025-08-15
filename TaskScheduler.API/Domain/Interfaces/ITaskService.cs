@@ -6,5 +6,6 @@ namespace TaskScheduler.API.Domain.Interfaces
     {
         Task<List<MyTaskResponse>> GetAllTasks();
         Task CreateTask(MyTaskRequestDto dto);
+        Task UpdateTask(MyTaskUpdateDto dto);
     }
 }

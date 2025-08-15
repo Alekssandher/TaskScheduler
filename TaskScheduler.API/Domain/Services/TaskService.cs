@@ -3,6 +3,7 @@ using System.Security.Claims;
 using TaskScheduler.API.Domain.DTOs;
 using TaskScheduler.API.Domain.Interfaces;
 using TaskScheduler.API.Domain.Mappers;
+using TaskScheduler.API.Domain.Models;
 using TaskScheduler.API.Domain.Repositories;
 
 namespace TaskScheduler.API.Domain.Services
@@ -60,6 +61,28 @@ namespace TaskScheduler.API.Domain.Services
             var user = await _userRepository.GetByEmail(email) ?? throw new Exception();
 
             await _taskRepository.AddTask(dto.ToTaskModel(user.Id));
+        }
+
+        public async Task UpdateTask(MyTaskUpdateDto dto)
+        {
+            var token = GetToken() ?? throw new Exception("Token Missing?");
+
+            var email = _jwtRepository.ExtractEmail(token);
+
+            var user = await _userRepository.GetByEmail(email) ?? throw new Exception();
+
+            MyTask task = await _taskRepository.GetTaskById(dto.TaskId) 
+                ?? throw new Exception("Task not found");
+
+            if (dto.Title != null) task.Title = dto.Title;
+            if (dto.Description != null) task.Description = dto.Description;
+            if (dto.FinishDate != null) task.FinishDate = dto.FinishDate;
+            if (dto.Status != null) task.Status = dto.Status.Value;
+
+            task.UpdatedAt = DateTime.UtcNow;
+
+            await _taskRepository.UpdateEntireTask(task);
+
         }
     }
 }

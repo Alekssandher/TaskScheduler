@@ -64,13 +64,14 @@ namespace TaskScheduler.API.Domain.Repositories
                 .SetProperty(t => t.Title, myTask.Title)
                 .SetProperty(t => t.Description, myTask.Description)
                 .SetProperty(t => t.Status, myTask.Status)
-                .SetProperty(t => t.ScheduledAt, myTask.ScheduledAt)
                 .SetProperty(t => t.FinishDate, myTask.FinishDate)
                 .SetProperty(t => t.UpdatedAt, DateTime.UtcNow)
             );
 
             if (affected == 0)
                 throw new Exception("Task not found");
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateStatus(int taskId, MyTaskStatus status)

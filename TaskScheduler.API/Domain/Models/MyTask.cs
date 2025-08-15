@@ -11,13 +11,13 @@ namespace TaskScheduler.API.Domain.Models
         public int Id { get; init; }
 
         [StringLength(200)]
-        public required string Title { get; init; }
+        public required string Title { get; set; }
 
         [StringLength(2000)]
-        public string? Description { get; init; }
+        public string? Description { get; set; }
 
         public DateTime ScheduledAt { get; init; } = DateTime.UtcNow;
-        public DateTime? FinishDate { get; init; }
+        public DateTime? FinishDate { get; set; }
 
         public MyTaskStatus Status { get; set; } = MyTaskStatus.ToDo;
 
