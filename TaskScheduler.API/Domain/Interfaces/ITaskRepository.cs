@@ -1,4 +1,3 @@
-using TaskScheduler.API.Domain.Enums;
 using TaskScheduler.API.Domain.Models;
 
 namespace TaskScheduler.API.Domain.Interfaces

@@ -21,8 +21,6 @@ if (app.Environment.IsDevelopment())
     app.MapHealthChecks("/health");
 }
 
-
-
 app.UseRouting();
 
 app.UseAuthentication();

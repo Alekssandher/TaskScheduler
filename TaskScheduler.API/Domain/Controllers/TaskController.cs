@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ namespace TaskScheduler.API.Domain.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [ProducesResponseType(typeof(UnauthorizedHttpResult), StatusCodes.Status401Unauthorized, "application/problem+json")]
     [ProducesResponseType(typeof(ModelViews.BadRequest), StatusCodes.Status400BadRequest, "application/problem+json")]
     [ProducesResponseType(typeof(InternalError), StatusCodes.Status500InternalServerError, "application/problem+json")]
     public class TaskController : ControllerBase

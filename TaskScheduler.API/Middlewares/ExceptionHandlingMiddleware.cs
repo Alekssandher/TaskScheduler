@@ -1,3 +1,4 @@
+using TaskScheduler.API.Domain.Exceptions;
 using TaskScheduler.API.ModelViews;
 
 namespace TaskScheduler.API.Middlewares
@@ -7,6 +8,7 @@ namespace TaskScheduler.API.Middlewares
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlingMiddleware> _logger;
         private static readonly InternalError errorResponse = new();
+    
         public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
         {
             _next = next;
@@ -17,7 +19,21 @@ namespace TaskScheduler.API.Middlewares
         {
             try
             {
-                await _next(context); 
+                await _next(context);
+            }
+            catch (Exceptions.BadRequestException ex)
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                context.Response.ContentType = "application/json";
+
+                await context.Response.WriteAsJsonAsync(new BadRequest(ex.Message));
+            }
+            catch (Exceptions.NotFoundException ex)
+            {
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                context.Response.ContentType = "application/json";
+
+                await context.Response.WriteAsJsonAsync(new NotFound(ex.Message));
             }
             catch (Exception ex)
             {

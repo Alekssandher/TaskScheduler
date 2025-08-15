@@ -1,5 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using TaskScheduler.API.Domain.DTOs;
 using TaskScheduler.API.Domain.Interfaces;
 using TaskScheduler.API.Domain.Mappers;
@@ -72,7 +70,7 @@ namespace TaskScheduler.API.Domain.Services
             var user = await _userRepository.GetByEmail(email) ?? throw new Exception();
 
             MyTask task = await _taskRepository.GetTaskById(dto.TaskId)
-                ?? throw new Exception("Task not found");
+                ?? throw new Exceptions.Exceptions.NotFoundException("Task not found");
 
             if (task.UserId != user.Id)
                 throw new Exception("Dif Ids");
@@ -97,7 +95,7 @@ namespace TaskScheduler.API.Domain.Services
             var user = await _userRepository.GetByEmail(email) ?? throw new Exception();
 
             if (!await _taskRepository.DeleteTask(taskId, user.Id))
-                throw new Exception();
+                throw new Exceptions.Exceptions.NotFoundException("We Could Not Find This Task");
         }
     }
 }

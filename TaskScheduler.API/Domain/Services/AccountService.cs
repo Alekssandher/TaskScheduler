@@ -19,7 +19,7 @@ namespace TaskScheduler.API.Domain.Services
 
         public async Task<string> Login(LoginDto loginDto)
         {
-            var res = await _userRepository.GetByEmail(loginDto.Email) ?? throw new Exception("NotFound");
+            var res = await _userRepository.GetByEmail(loginDto.Email) ?? throw new Exceptions.Exceptions.BadRequestException("Wrong Email or Password");
 
             
             if (_passwordRepository.VerifyPassword(loginDto.Password, res.PasswordHash))
@@ -28,7 +28,7 @@ namespace TaskScheduler.API.Domain.Services
                 return _jwtRepository.GetJwtToken(res.Email);
             }
 
-            throw new Exception("NotFound");
+            throw new Exceptions.Exceptions.BadRequestException("Wrong Email or Password");
         }
 
         public async Task Register(RegisterDto registerDto)

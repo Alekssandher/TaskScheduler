@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using TaskScheduler.API.Domain.Enums;
 using TaskScheduler.API.Domain.Interfaces;
 using TaskScheduler.API.Domain.Models;
 using TaskScheduler.API.Infrastructure.Db;

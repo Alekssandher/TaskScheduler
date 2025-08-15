@@ -68,17 +68,46 @@ namespace TaskScheduler.API.ModelViews
         [DefaultValue("/api/endpointPath/")]
         public override string Instance { get; init; }
 
-        public BadRequest(string title, string detail)
+        public BadRequest(string detail)
         {
             Type = "https://datatracker.ietf.org/doc/html/rfc9110#status.400";
             Status = StatusCodes.Status400BadRequest;
-            Title = title ?? "Bad Request";
+            Title = "Bad Request";
             Detail = detail ?? "Request Malformed";
             Instance = _httpContextAccessor.HttpContext?.Request.Path ?? "/unknown";
         }
 
     }
 
+    public class NotFound : ErrorDetails {
+
+        private readonly IHttpContextAccessor _httpContextAccessor = new HttpContextAccessor();
+
+        [DefaultValue("https://datatracker.ietf.org/doc/html/rfc9110#status.404")]
+        public override string Type { get; init; }
+
+        [DefaultValue(404)]
+        public override int Status {get; init; }
+
+        [DefaultValue("Not Found")]
+        public override string Title { get; init; }
+
+        [DefaultValue("Couldn't find your requisition.")]
+        public override string Detail { get; init; }
+
+        [DefaultValue("/api/endpointPath/")]
+        public override string Instance { get; init; }
+
+        public NotFound( string detail)
+        {
+            Type = "https://datatracker.ietf.org/doc/html/rfc9110#status.404";
+            Status = StatusCodes.Status404NotFound;
+            Title = "Not Found";
+            Detail = detail ?? "We Couldn't Find Your Request.";
+            Instance = _httpContextAccessor.HttpContext?.Request.Path ?? "/unknown";
+        }
+
+    }
 
     public class TooManyRequests : ErrorDetails {
 
