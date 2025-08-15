@@ -35,8 +35,9 @@ namespace TaskScheduler.API.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
                     };
                 });
-            
-            services.AddAuthorization();
+
+            services.AddHttpContextAccessor();
+            services.AddAuthentication();
             services.AddAuthorization();
         }
     }

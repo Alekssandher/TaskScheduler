@@ -21,7 +21,13 @@ if (app.Environment.IsDevelopment())
     app.MapHealthChecks("/health");
 }
 
+
+
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();

@@ -14,6 +14,17 @@ namespace TaskScheduler.API.Extensions
                         Version = "v1",
                         Description = "API to Schedule Tasks."
                     };
+
+                    document.Components ??= new();
+
+                    document.Components.SecuritySchemes["Bearer"] = new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                    {
+                        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT",
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+                    };
+
                     return Task.CompletedTask;
                 });
             });

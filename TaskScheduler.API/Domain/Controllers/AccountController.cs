@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskScheduler.API.Domain.DTOs;
 using TaskScheduler.API.Domain.Interfaces;
