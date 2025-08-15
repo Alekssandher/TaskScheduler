@@ -12,14 +12,13 @@ namespace TaskScheduler.API.Infrastructure.Db
             _config = config;
         }
 
-        // public DbSet<Admin> Admins { get; set; } = default!;
-        // public DbSet<Vehicle> Vehicles { get; set; } = default!;
-
         public DbSet<User> Users { get; set; } = default!;
-
+        public DbSet<MyTask> Tasks { get; set; } = default!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.Entity<MyTask>()
+                .Property(t => t.Status)
+                .HasConversion<string>();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
