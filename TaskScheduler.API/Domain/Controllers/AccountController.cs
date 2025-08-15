@@ -10,7 +10,7 @@ namespace TaskScheduler.API.Domain.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountInterface;
-
+        private readonly CreatedResponse createdResponse = new();
         public AccountController(IAccountService accountInterface)
         {
             _accountInterface = accountInterface;
@@ -24,7 +24,7 @@ namespace TaskScheduler.API.Domain.Controllers
         {
             await _accountInterface.Register(registerDto);
 
-            return StatusCode(204, new NoContentResponse());
+            return StatusCode(204, createdResponse);
         }
 
         [HttpPost("login")]

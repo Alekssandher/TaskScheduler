@@ -28,6 +28,7 @@ namespace TaskScheduler.API.Domain.Repositories
             var query = _context.Tasks.AsQueryable();
 
             query = query.Where(u => u.UserId == id);
+            
             if (taskFilter.Status.HasValue)
                 query = query.Where(t => t.Status == taskFilter.Status.Value);
 
@@ -74,46 +75,7 @@ namespace TaskScheduler.API.Domain.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateStatus(int taskId, MyTaskStatus status)
-        {
-            var affected = await _context.Tasks
-            .Where(t => t.Id == taskId)
-            .ExecuteUpdateAsync(setters => setters
-                .SetProperty(t => t.Status, status)
-                .SetProperty(t => t.UpdatedAt, DateTime.UtcNow)
-            );
-
-            if (affected == 0)
-                throw new Exception("Task not found");
-        }
-
-        public async Task UpdateTitle(int taskId, string title)
-        {
-            var affected = await _context.Tasks
-            .Where(t => t.Id == taskId)
-            .ExecuteUpdateAsync(setters => setters
-                .SetProperty(t => t.Title, title)
-                .SetProperty(t => t.UpdatedAt, DateTime.UtcNow)
-            );
-
-            if (affected == 0)
-                throw new Exception("Task not found");
-        }
-
-        public async Task UpdateDescription(int taskId, string description)
-        {
-            var affected = await _context.Tasks
-            .Where(t => t.Id == taskId)
-            .ExecuteUpdateAsync(setters => setters
-                .SetProperty(t => t.Description, description)
-                .SetProperty(t => t.UpdatedAt, DateTime.UtcNow)
-            );
-
-            if (affected == 0)
-                throw new Exception("Task not found");
-        }
-
-        public async Task AddTask(MyTask myTask)
+            public async Task AddTask(MyTask myTask)
         {
             await _context.Tasks.AddAsync(myTask);
             await _context.SaveChangesAsync();

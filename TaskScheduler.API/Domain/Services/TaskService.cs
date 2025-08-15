@@ -39,7 +39,7 @@ namespace TaskScheduler.API.Domain.Services
             return null;
         }
 
-        public async Task<List<MyTaskResponse>> GetAllTasks()
+        public async Task<List<MyTaskResponse>> GetAllTasks(TaskFilter taskFilter)
         {
             var token = GetToken() ?? throw new Exception("Token Missing?");
 
@@ -47,7 +47,7 @@ namespace TaskScheduler.API.Domain.Services
 
             var user = await _userRepository.GetByEmail(email) ?? throw new Exception();
 
-            var res = await _taskRepository.GetAllTasks(user.Id);
+            var res = await _taskRepository.GetTasksByFilters(user.Id, taskFilter);
 
             return res.ToListResult();
         }
@@ -73,6 +73,9 @@ namespace TaskScheduler.API.Domain.Services
 
             MyTask task = await _taskRepository.GetTaskById(dto.TaskId) 
                 ?? throw new Exception("Task not found");
+
+            if (task.UserId != user.Id)
+                throw new Exception("Dif Ids");
 
             if (dto.Title != null) task.Title = dto.Title;
             if (dto.Description != null) task.Description = dto.Description;

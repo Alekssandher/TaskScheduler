@@ -10,8 +10,6 @@ namespace TaskScheduler.API.Domain.Interfaces
         Task<MyTask?> GetTaskById(int id);
         Task<List<MyTask>> GetAllTasks(int id);
         Task UpdateEntireTask(MyTask myTask);
-        Task UpdateStatus(int taskId, MyTaskStatus status);
-        Task UpdateTitle(int taskId, string title);
-        Task UpdateDescription(int taskId, string description);
+
     }
 }
