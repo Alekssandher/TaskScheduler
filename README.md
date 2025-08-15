@@ -1,212 +1,210 @@
-# Minimal API - Sistema de Gerenciamento de Veículos
+# TaskScheduler API
 
-Uma API RESTful desenvolvida em .NET 9 usando Minimal API para gerenciamento de veículos e administradores.
+Uma API RESTful para gerenciamento de tarefas com autenticação JWT, desenvolvida em .NET 9 com Entity Framework Core e MySQL.
 
-## 📋 Funcionalidades
+## 🚀 Funcionalidades
 
-### Administradores
-- Login com autenticação JWT
-- Listagem de administradores (paginada)
-- Busca por ID
-- Criação de novos administradores
-- Dois perfis: Admin e Editor
-
-### Veículos
-- CRUD completo (Create, Read, Update, Delete)
-- Listagem paginada com filtros por nome e marca
-- Busca por ID
-- Validações de dados
+- **Autenticação JWT**: Sistema completo de registro e login de usuários
+- **Gerenciamento de Tarefas**: CRUD completo para tarefas pessoais
+- **Filtros Avançados**: Busca por status, data, título com paginação
+- **Segurança**: Senhas criptografadas com BCrypt
+- **Documentação**: API documentada com OpenAPI/Swagger
+- **Middleware de Exceções**: Tratamento centralizado de erros
+- **Validação**: Validação robusta de dados de entrada
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Framework**: .NET 9
-- **Banco de Dados**: MySQL
-- **ORM**: Entity Framework Core 9.0.8
-- **Autenticação**: JWT Bearer
-- **Documentação**: Scalar/OpenAPI
-- **Arquitetura**: Clean Architecture com Domain-Driven Design
+- **.NET 9**: Framework principal
+- **Entity Framework Core**: ORM para acesso a dados
+- **MySQL**: Banco de dados relacional
+- **JWT Bearer**: Autenticação e autorização
+- **BCrypt.Net**: Criptografia de senhas
+- **Scalar**: Documentação interativa da API
+- **AutoMapper**: Mapeamento de objetos (via extensões customizadas)
 
-## 📁 Estrutura do Projeto
-
-```
-API/
-├── Domain/
-│   ├── DTOs/              # Data Transfer Objects
-│   ├── Entities/          # Entidades do domínio
-│   ├── Enums/             # Enumerações
-│   ├── Interfaces/        # Interfaces dos serviços
-│   ├── ModelViews/        # ViewModels
-│   └── Services/          # Implementação dos serviços
-├── Infrastructure/
-│   └── Db/               # Contexto do Entity Framework
-├── Migrations/           # Migrações do banco de dados
-├── Properties/           # Configurações do projeto
-├── Program.cs           # Ponto de entrada da aplicação
-├── Startup.cs           # Configuração da aplicação
-└── appsettings.json     # Configurações da aplicação
-```
-
-## ⚙️ Configuração
-
-### Pré-requisitos
+## 📋 Pré-requisitos
 
 - .NET 9 SDK
 - MySQL Server
-- IDE (Visual Studio, VS Code, Rider, etc.)
+- IDE de sua preferência (Visual Studio, VS Code, Rider)
 
-### Configuração do Banco de Dados
+## ⚙️ Configuração
 
-1. Configure a string de conexão no `appsettings.json`:
+### 1. Clone o repositório
+```bash
+git clone <url-do-repositorio>
+cd TaskScheduler.API
+```
+
+### 2. Configure o banco de dados
+Edite o arquivo `appsettings.json` ou `appsettings.Development.json`:
+
 ```json
 {
   "ConnectionStrings": {
-    "mysql": "Server=localhost;Database=minimal_api;Uid=seu_usuario;Pwd=sua_senha;"
-  }
-}
-```
-
-2. Execute as migrações para criar o banco:
-```bash
-dotnet ef database update
-```
-
-### Configuração JWT
-
-A chave JWT está configurada no `appsettings.json`:
-```json
-{
+    "mysql": "Server=localhost;Database=task_api;Uid=seu_usuario;Pwd=sua_senha;"
+  },
   "JwtSettings": {
-    "Key": "rieladoravantenestantefoi-separaummundodistante"
+    "Key": "sua-chave-secreta-muito-longa-e-segura",
+    "Issuer": "seu-issuer",
+    "Audience": "sua-audience"
   }
 }
 ```
 
-## 🚀 Como Executar
-
-1. Clone o repositório
-2. Navegue até a pasta do projeto
-3. Restaure as dependências:
+### 3. Execute as migrações
 ```bash
-dotnet restore
-```
-
-4. Execute o projeto:
-```bash
-dotnet run
-```
-
-5. Acesse a documentação em: `http://localhost:5278/docs`
-
-## 🔐 Autenticação
-
-O sistema utiliza JWT Bearer Token para autenticação. 
-
-### Login Padrão
-- **Email**: admin@admin.com
-- **Senha**: 1234
-
-### Como usar:
-1. Faça login através do endpoint `/admin/login`
-2. Copie o token retornado
-3. Use o token no header Authorization: `Bearer {seu_token}`
-
-## 📚 Endpoints da API
-
-### Administradores
-
-| Método | Endpoint | Descrição | Autenticação |
-|--------|----------|-----------|--------------|
-| POST | `/admin/login` | Login do administrador | Não |
-| GET | `/admin` | Listar administradores | Admin |
-| GET | `/admin/{id}` | Buscar admin por ID | Admin |
-| POST | `/admin/create` | Criar novo administrador | Admin |
-
-### Veículos
-
-| Método | Endpoint | Descrição | Autenticação |
-|--------|----------|-----------|--------------|
-| POST | `/vehicles` | Criar veículo | Editor |
-| GET | `/vehicles` | Listar veículos | Editor |
-| GET | `/vehicles/{id}` | Buscar veículo por ID | Editor |
-| PUT | `/vehicles/{id}` | Atualizar veículo | Admin |
-| DELETE | `/vehicles/{id}` | Excluir veículo | Admin |
-
-### Filtros para Listagem de Veículos
-
-- `page`: Número da página (padrão: 1)
-- `name`: Filtro por nome do veículo
-- `brand`: Filtro por marca do veículo
-
-Exemplo: `/vehicles?page=1&name=civic&brand=honda`
-
-## 🏗️ Modelos de Dados
-
-### Admin
-```json
-{
-  "email": "admin@exemplo.com",
-  "password": "senha123",
-  "profile": "Admin" // ou "Editor"
-}
-```
-
-### Vehicle
-```json
-{
-  "name": "Civic",
-  "brand": "Honda",
-  "year": 2020
-}
-```
-
-## 🔒 Perfis de Usuário
-
-- **Admin**: Acesso completo (CRUD de veículos e administradores)
-- **Editor**: Pode criar e visualizar veículos
-
-## ✅ Validações
-
-### Administrador
-- Email obrigatório e deve ser um endereço válido
-- Senha obrigatória (máx. 100 caracteres)
-- Perfil obrigatório (Admin ou Editor)
-
-### Veículo
-- Nome obrigatório (máx. 150 caracteres)
-- Marca opcional (máx. 100 caracteres)
-- Ano obrigatório e deve ser >= 1950
-
-## 📋 Status Codes
-
-- `200 OK`: Sucesso
-- `201 Created`: Recurso criado com sucesso
-- `400 Bad Request`: Dados inválidos
-- `401 Unauthorized`: Token inválido ou ausente
-- `403 Forbidden`: Sem permissão para acessar o recurso
-- `404 Not Found`: Recurso não encontrado
-
-## 🔧 Scripts Úteis
-
-```bash
-# Restaurar dependências
-dotnet restore
-
-# Compilar o projeto
-dotnet build
-
-# Executar o projeto
-dotnet run
-
-# Executar em modo de desenvolvimento
-dotnet watch run
-
-# Criar nova migração
-dotnet ef migrations add NomeDaMigracao
-
-# Atualizar banco de dados
 dotnet ef database update
 ```
 
-## 📝 Licença
+### 4. Execute a aplicação
+```bash
+dotnet run
+```
 
-Este projeto está sob a licença MIT.
+A API estará disponível em:
+- HTTP: `http://localhost:5036`
+- HTTPS: `https://localhost:7066`
+- Documentação: `https://localhost:7066/docs`
+
+## 🔗 Endpoints
+
+### Autenticação
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST | `/register` | Registrar novo usuário |
+| POST | `/login` | Fazer login e obter token JWT |
+
+### Tarefas (Requer autenticação)
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/task` | Listar tarefas com filtros |
+| POST | `/api/task` | Criar nova tarefa |
+| PUT | `/api/task` | Atualizar tarefa existente |
+| DELETE | `/api/task/{id}` | Deletar tarefa |
+
+### Filtros Disponíveis (GET /api/task)
+- `status`: Filtrar por status (ToDo, InProgress, Completed, Canceled)
+- `fromDate`: Data inicial
+- `toDate`: Data final
+- `titleContains`: Buscar por título
+- `page`: Número da página (padrão: 1)
+- `pageSize`: Itens por página (padrão: 10, máximo: 100)
+
+## 📝 Exemplos de Uso
+
+### Registrar usuário
+```bash
+curl -X POST https://localhost:7066/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "usuario@exemplo.com",
+    "password": "MinhaSenh@123",
+    "username": "MeuUsuario"
+  }'
+```
+
+### Fazer login
+```bash
+curl -X POST https://localhost:7066/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "usuario@exemplo.com",
+    "password": "MinhaSenh@123"
+  }'
+```
+
+### Criar tarefa
+```bash
+curl -X POST https://localhost:7066/api/task \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer SEU_TOKEN_JWT" \
+  -d '{
+    "title": "Minha primeira tarefa",
+    "description": "Descrição da tarefa",
+    "finishDate": "2024-12-31T23:59:59",
+    "status": "ToDo"
+  }'
+```
+
+### Listar tarefas com filtros
+```bash
+curl "https://localhost:7066/api/task?status=ToDo&page=1&pageSize=10" \
+  -H "Authorization: Bearer SEU_TOKEN_JWT"
+```
+
+## 🏗️ Estrutura do Projeto
+
+```
+TaskScheduler.API/
+├── Domain/
+│   ├── Controllers/     # Controladores da API
+│   ├── DTOs/           # Data Transfer Objects
+│   ├── Enums/          # Enumerações
+│   ├── Exceptions/     # Exceções customizadas
+│   ├── Interfaces/     # Interfaces de serviços e repositórios
+│   ├── Mappers/        # Mapeadores de objetos
+│   ├── Models/         # Modelos de entidades
+│   ├── Repositories/   # Implementações de repositórios
+│   └── Services/       # Lógica de negócio
+├── Extensions/         # Extensões para configuração
+├── Infrastructure/     # Configuração de banco de dados
+├── Middlewares/        # Middlewares customizados
+├── Migrations/         # Migrações do Entity Framework
+└── ModelViews/         # Modelos de resposta da API
+```
+
+## 🔒 Status das Tarefas
+
+- `ToDo`: Tarefa pendente
+- `InProgress`: Tarefa em andamento
+- `Completed`: Tarefa concluída
+- `Canceled`: Tarefa cancelada
+
+## 🚀 Modelo de Resposta
+
+A API segue o padrão RFC 7807 para respostas de erro e inclui metadados nas respostas de sucesso:
+
+### Resposta de Sucesso
+```json
+{
+  "type": "https://datatracker.ietf.org/doc/html/rfc9110#name-200-ok",
+  "status": 200,
+  "title": "Tasks retrieved",
+  "detail": "Tasks fetched successfully",
+  "instance": "/api/task",
+  "data": [...]
+}
+```
+
+### Resposta de Erro
+```json
+{
+  "type": "https://datatracker.ietf.org/doc/html/rfc9110#status.400",
+  "status": 400,
+  "title": "Bad Request",
+  "detail": "Email Field Is Required.",
+  "instance": "/register"
+}
+```
+
+## 🔧 Health Check
+
+A API inclui um endpoint de health check:
+- `GET /health` - Verifica o status da aplicação
+
+## 📚 Documentação
+
+A documentação interativa da API está disponível em `/docs` quando executada em ambiente de desenvolvimento.
+
+## 🤝 Contribuindo
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
