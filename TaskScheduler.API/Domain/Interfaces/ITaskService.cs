@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TaskScheduler.API.Domain.Models;
+using TaskScheduler.API.Domain.DTOs;
 
 namespace TaskScheduler.API.Domain.Interfaces
 {
     public interface ITaskService
     {
-        
+        Task<List<MyTaskResponse>> GetAllTasks();
     }
 }

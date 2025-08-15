@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
 using TaskScheduler.API.Domain.DTOs;
 using TaskScheduler.API.Domain.Interfaces;
 using TaskScheduler.API.Domain.Models;

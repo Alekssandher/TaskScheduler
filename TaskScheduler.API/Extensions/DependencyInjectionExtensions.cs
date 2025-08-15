@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TaskScheduler.API.Domain.Interfaces;
 using TaskScheduler.API.Domain.Repositories;
@@ -24,6 +20,8 @@ namespace TaskScheduler.API.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordRepository, PasswordRepository>();
             services.AddScoped<IJwtRepository, JwtRepository>();
+            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
         }
     }   
 }
