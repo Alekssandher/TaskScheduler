@@ -5,5 +5,6 @@ namespace TaskScheduler.API.Domain.Interfaces
     public interface ITaskService
     {
         Task<List<MyTaskResponse>> GetAllTasks();
+        Task CreateTask(MyTaskRequestDto dto);
     }
 }

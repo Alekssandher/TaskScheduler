@@ -17,7 +17,7 @@ namespace TaskScheduler.API.Domain.Models
         public string? Description { get; init; }
 
         public DateTime ScheduledAt { get; init; } = DateTime.UtcNow;
-        public DateTime FinishDate { get; init; }
+        public DateTime? FinishDate { get; init; }
 
         public MyTaskStatus Status { get; set; } = MyTaskStatus.ToDo;
 

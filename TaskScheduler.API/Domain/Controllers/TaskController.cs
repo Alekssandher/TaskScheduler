@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskScheduler.API.Domain.DTOs;
@@ -26,6 +27,16 @@ namespace TaskScheduler.API.Domain.Controllers
             var res = await _taskService.GetAllTasks();
 
             return Ok(new OkResponse<List<MyTaskResponse>>("Task retrieved", "Task fetched successfully", res));
-        }   
+        }
+
+        [HttpPost]
+        [Consumes("application/json")]
+        [EndpointName("Create Task")]
+        public async Task<IActionResult> CreateTask([FromBody] MyTaskRequestDto dto)
+        {
+            await _taskService.CreateTask(dto);
+
+            return Created();
+        }
     }
 }

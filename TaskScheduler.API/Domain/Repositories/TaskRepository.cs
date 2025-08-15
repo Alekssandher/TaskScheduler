@@ -15,16 +15,19 @@ namespace TaskScheduler.API.Domain.Repositories
             _context = context;
         }
 
-        public async Task<List<MyTask>> GetAllTasks()
+        public async Task<List<MyTask>> GetAllTasks(int id)
         {
-            return await _context.Tasks.ToListAsync();
+            return await _context.Tasks
+            .Where(u => u.UserId == id)
+            .ToListAsync();
                 
         }
 
-        public async Task<List<MyTask>> GetTasksByFilters(TaskFilter taskFilter)
+        public async Task<List<MyTask>> GetTasksByFilters(int id, TaskFilter taskFilter)
         {
             var query = _context.Tasks.AsQueryable();
 
+            query = query.Where(u => u.UserId == id);
             if (taskFilter.Status.HasValue)
                 query = query.Where(t => t.Status == taskFilter.Status.Value);
 

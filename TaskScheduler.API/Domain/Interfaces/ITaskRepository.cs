@@ -6,9 +6,9 @@ namespace TaskScheduler.API.Domain.Interfaces
     public interface ITaskRepository
     {
         Task AddTask(MyTask myTask);
-        Task<List<MyTask>> GetTasksByFilters(TaskFilter taskFilter);
+        Task<List<MyTask>> GetTasksByFilters(int id, TaskFilter taskFilter);
         Task<MyTask?> GetTaskById(int id);
-        Task<List<MyTask>> GetAllTasks();
+        Task<List<MyTask>> GetAllTasks(int id);
         Task UpdateEntireTask(MyTask myTask);
         Task UpdateStatus(int taskId, MyTaskStatus status);
         Task UpdateTitle(int taskId, string title);

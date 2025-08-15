@@ -22,6 +22,17 @@ namespace TaskScheduler.API.Domain.Mappers
             })];
         }
 
+        public static MyTask ToTaskModel(this MyTaskRequestDto dto, int userId)
+        {
+            return new MyTask
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                FinishDate = dto.FinishDate,
+                Status = dto.Status,
+                UserId = userId
+            };
+        }
         public static MyTaskResponse ToResult(this MyTask myTask)
         {
             return new MyTaskResponse
