@@ -79,62 +79,6 @@ namespace TaskScheduler.API.ModelViews
 
     }
 
-    public class NotFound : ErrorDetails {
-
-        private readonly IHttpContextAccessor _httpContextAccessor = new HttpContextAccessor();
-
-        [DefaultValue("https://datatracker.ietf.org/doc/html/rfc9110#status.404")]
-        public override string Type { get; init; }
-
-        [DefaultValue(404)]
-        public override int Status {get; init; }
-
-        [DefaultValue("Not Found")]
-        public override string Title { get; init; }
-
-        [DefaultValue("Couldn't find your requisition.")]
-        public override string Detail { get; init; }
-
-        [DefaultValue("/api/endpointPath/")]
-        public override string Instance { get; init; }
-
-        public NotFound(string title, string detail)
-        {
-            Type = "https://datatracker.ietf.org/doc/html/rfc9110#status.404";
-            Status = StatusCodes.Status404NotFound;
-            Title = title ?? "Not Found";
-            Detail = detail ?? "We Couldn't Find Your Request.";
-            Instance = _httpContextAccessor.HttpContext?.Request.Path ?? "/unknown";
-        }
-
-    }
-
-    public class ContentTooLarge : ErrorDetails {
-
-        [DefaultValue("https://datatracker.ietf.org/doc/html/rfc9110#status.414")]
-        public override string Type { get; init; }
-
-        [DefaultValue(414)]
-        public override int Status {get; init; }
-
-        [DefaultValue("Request Too Long")]
-        public override string Title { get; init; }
-
-        [DefaultValue("Too Long Requisition.")]
-        public override string Detail { get; init; }
-
-        [DefaultValue("Unknown")]
-        public override string Instance { get; init; }
-
-        public ContentTooLarge(string title, string detail)
-        {
-            Type = "https://datatracker.ietf.org/doc/html/rfc9110#status.414";
-            Status = StatusCodes.Status414RequestUriTooLong;
-            Title = title ?? "Request Too Long";
-            Detail = detail ?? "Too Long Requisition.";
-            Instance = "/unknown";
-        }
-    }
 
     public class TooManyRequests : ErrorDetails {
 

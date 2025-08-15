@@ -66,38 +66,5 @@ namespace TaskScheduler.API.ModelViews
           
         }
     }
-    public class NoContentResponse : ApiResponse<object>
-    {
-        private static readonly IHttpContextAccessor _httpContextAccessor = new HttpContextAccessor();
 
-        public NoContentResponse()
-            : base(
-                  status: StatusCodes.Status204NoContent,
-                  type: "https://datatracker.ietf.org/doc/html/rfc9110#name-204-no-content",
-                  title: "No Content",
-                  detail: "The request was successful, but there is no content to return.",
-                  instance: _httpContextAccessor.HttpContext?.Request.Path ?? "/unknown",
-                  data: null)
-        {
-     
-        }
-    }
-
-    public class CreatedResponse : ApiResponse<object>
-    {
-        private static readonly IHttpContextAccessor _httpContextAccessor = new HttpContextAccessor();
-
-        public CreatedResponse()
-            : base(
-                status: StatusCodes.Status201Created,
-                type: "https://datatracker.ietf.org/doc/html/rfc9110#name-201-created",
-                title: "Created",
-                detail: "The request was succsessful, data created.",
-                instance: _httpContextAccessor.HttpContext?.Request.Path ?? "/unkown",
-                data: null
-            )
-        {
-          
-        }
-    }
 }

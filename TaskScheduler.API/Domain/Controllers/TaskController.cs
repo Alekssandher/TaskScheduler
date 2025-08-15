@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TaskScheduler.API.Domain.DTOs;
 using TaskScheduler.API.Domain.Interfaces;
@@ -11,14 +12,11 @@ namespace TaskScheduler.API.Domain.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    [ProducesResponseType(typeof(BadRequest), StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType(typeof(ModelViews.BadRequest), StatusCodes.Status400BadRequest, "application/problem+json")]
     [ProducesResponseType(typeof(InternalError), StatusCodes.Status500InternalServerError, "application/problem+json")]
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
-
-        private readonly NoContentResponse noContentResponse = new();
-        private readonly CreatedResponse createdResponse = new();
 
         public TaskController(ITaskService taskService)
         {
@@ -40,35 +38,35 @@ namespace TaskScheduler.API.Domain.Controllers
         [Consumes("application/json")]
         [EndpointName("Create Task")]
         [EndpointSummary("CreateTask")]
-        [ProducesResponseType(typeof(CreatedResponse), StatusCodes.Status201Created, "application/json")]
+        [ProducesResponseType(typeof(Created), StatusCodes.Status201Created, "application/json")]
         public async Task<IActionResult> CreateTask([FromBody] MyTaskRequestDto dto)
         {
             await _taskService.CreateTask(dto);
 
-            return StatusCode(201, createdResponse);
+            return Created();
         }
 
         [HttpPut]
         [Consumes("application/json")]
         [EndpointName("Update Task")]
         [EndpointSummary("UpdateTask")]
-        [ProducesResponseType(typeof(NoContentResponse), StatusCodes.Status204NoContent, "application/json")]
+        [ProducesResponseType(typeof(NoContent), StatusCodes.Status204NoContent, "application/json")]
         public async Task<IActionResult> UpdateTask([FromBody] MyTaskUpdateDto dto)
         {
             await _taskService.UpdateTask(dto);
 
-            return StatusCode(204, noContentResponse);
+            return NoContent();
         }
 
         [HttpDelete("{taskId}")]
         [EndpointName("Delete Task")]
         [EndpointSummary("DeleteTask")]
-        [ProducesResponseType(typeof(NoContentResponse), StatusCodes.Status204NoContent, "application/json")]
+        [ProducesResponseType(typeof(NoContent), StatusCodes.Status204NoContent, "application/json")]
         public async Task<IActionResult> DeleteTask([FromRoute] int taskId)
         {
             await _taskService.DeleteTask(taskId);
 
-            return StatusCode(204, noContentResponse);
+            return NoContent();
         }
     }
 }

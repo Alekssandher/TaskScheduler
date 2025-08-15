@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TaskScheduler.API.Domain.DTOs;
 using TaskScheduler.API.Domain.Interfaces;
@@ -7,10 +8,11 @@ namespace TaskScheduler.API.Domain.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ProducesResponseType(typeof(ModelViews.BadRequest), StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType(typeof(InternalError), StatusCodes.Status500InternalServerError, "application/problem+json")]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountInterface;
-        private readonly CreatedResponse createdResponse = new();
         public AccountController(IAccountService accountInterface)
         {
             _accountInterface = accountInterface;
@@ -20,21 +22,23 @@ namespace TaskScheduler.API.Domain.Controllers
         [Consumes("application/json")]
         [EndpointName("Register")]
         [EndpointSummary("Register Account.")]
+        [ProducesResponseType(typeof(Created), StatusCodes.Status201Created, "application/json")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             await _accountInterface.Register(registerDto);
 
-            return StatusCode(204, createdResponse);
+            return Created();
         }
 
         [HttpPost("login")]
         [Consumes("application/json")]
         [EndpointName("Login")]
         [EndpointSummary("Login and Get Token.")]
+        [ProducesResponseType(typeof(OkResponse<IReadOnlyList<MyTaskResponse>>), StatusCodes.Status200OK, "application/json")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             var res = await _accountInterface.Login(loginDto);
-            
+
             return Ok(new OkResponse<string>("", "", res));
         }
     }
