@@ -8,6 +8,7 @@ namespace TaskScheduler.API.Domain.Repositories
     public interface IJwtRepository
     {
         string GetJwtToken(string email);
+        string ExtractEmail(string token);
     }
 
     public class JwtRepository : IJwtRepository
@@ -61,6 +62,8 @@ namespace TaskScheduler.API.Domain.Repositories
             {
                 ValidateIssuer = true, 
                 ValidateAudience = true,
+                ValidIssuer = jwtIssuer,
+                ValidAudience = jwtAudience,
                 ValidateLifetime = true, 
                 ClockSkew = TimeSpan.Zero, 
                 IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -73,8 +76,13 @@ namespace TaskScheduler.API.Domain.Repositories
                 var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
 
                 var emailClaim = principal.Claims
-                    .FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Email);
+                    .FirstOrDefault(c => 
+                        c.Type == JwtRegisteredClaimNames.Email || 
+                        c.Type == "email" || 
+                        c.Type == ClaimTypes.Email
+                    );
 
+        
                 return emailClaim?.Value ?? throw new Exception("Email claim not found in token");
             }
             catch (SecurityTokenExpiredException)
